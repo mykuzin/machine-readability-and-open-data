@@ -91,39 +91,6 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-% definitions for citeproc citations
-\NewDocumentCommand\citeproctext{}{}
-\NewDocumentCommand\citeproc{mm}{%
-  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
-\makeatletter
- % allow citations to break across lines
- \let\@cite@ofmt\@firstofone
- % avoid brackets around text for \cite:
- \def\@biblabel#1{}
- \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
-\makeatother
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
- {\begin{list}{}{%
-  \setlength{\itemindent}{0pt}
-  \setlength{\leftmargin}{0pt}
-  \setlength{\parsep}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1
-   \setlength{\leftmargin}{\cslhangindent}
-   \setlength{\itemindent}{-1\cslhangindent}
-  \fi
-  % set entry spacing
-  \setlength{\itemsep}{#2\baselineskip}}}
- {\end{list}}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage{url} %this package should fix any errors with URLs in refs.
 \usepackage{lineno}
@@ -177,9 +144,10 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={La Palma Earthquakes},
-  pdfauthor={Steve Purves; Rowan Cockett},
-  pdfkeywords={La Palma, Earthquakes},
+  pdftitle={Яка машиночитаність потрібна для доступності використання відкритих даних},
+  pdfauthor={Микола Кузін},
+  pdfkeywords={машиночитаність, відкриті дані, стандарти відкритих
+даних},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -188,164 +156,286 @@
   pdfcreator={LaTeX via pandoc}}
 
 
-\journalname{Earth and Space Science}
 
 \draftfalse
 
 \begin{document}
-\title{La Palma Earthquakes}
+\title{Яка машиночитаність потрібна для доступності використання
+відкритих даних}
 
-\authors{Steve Purves\affil{1}, Rowan Cockett\affil{1}}
-\affiliation{1}{Curvenote, }
-\correspondingauthor{Steve Purves}{steve@curvenote.com}
+\authors{Микола Кузін\affil{1}}
+\affiliation{1}{BRDO, }
+\correspondingauthor{Микола Кузін}{m.kuzin@brdo.com.ua}
 
 
 \begin{abstract}
-In September 2021, a significant jump in seismic activity on the island
-of La Palma (Canary Islands, Spain) signaled the start of a volcanic
-crisis that still continues at the time of writing. Earthquake data is
-continually collected and published by the Instituto Geográphico
-Nacional (IGN). \ldots{}
+Машиночитаність --- це структурованість документа на логічному рівні, що
+уможливлює автоматизоване зчитування його структури та змісту. У сфері
+відкритих даних цей термін набуває додаткових значень залежно від
+контекстів використання --- і ці значення важливо розрізняти. У
+концепції Пов'язаних даних (Linked Data), запропонованої винахідником
+Інтернета Тімом Бернерсом-Лі, структурований формат даних є однією з
+технічних вимог на шляху до повної інтеграції набору в Інтернет Даних.
+Тут діють стандарти відкритих даних W3C. Є користувацька перспектива,
+реалізована, зокрема, у проєкті Frictionless Data (``обробляти й не
+корчитися'') де машиночитаність додатково означає простоту обробки і
+використання опублікованих даних. З ції точки зору важливі інші
+стандарти --- як, наприклад, стандард публікації табличних даних. В цій
+статті навожу аргументи, чому для українських розпорядників наразі
+важливіше сфокусуватися на користувацькій перспективі й усунути бар'єри
+використання наборів, які вже публікуються.
 \end{abstract}
 
-\section*{Plain Language Summary}
-Earthquake data for the island of La Palma from the September 2021
-eruption is found \ldots{}
 
 
 
 
-\section{Introduction}\label{introduction}
+\subsection{Відкриті дані: вільний доступ vs доступність
+використання}\label{ux432ux456ux434ux43aux440ux438ux442ux456-ux434ux430ux43dux456-ux432ux456ux43bux44cux43dux438ux439-ux434ux43eux441ux442ux443ux43f-vs-ux434ux43eux441ux442ux443ux43fux43dux456ux441ux442ux44c-ux432ux438ux43aux43eux440ux438ux441ux442ux430ux43dux43dux44f}
+
+За визначенням Open Knowledge Foundation ---розробників CKAN, на якій
+реалізований український Портал відкритих даних --- ``відкритість''
+даних полягає в тому, що будь-хто може мати до них вільний доступ,
+вільно використовувати, змінювати та ділитися ними\footnote{\url{https://opendefinition.org/od/2.0/ua/}}.
+
+\href{https://aims.gitbook.io/open-data-mooc/unit-1-open-data-principles/lesson-1.1-what-is-open-data\#id-5.-challenges}{Однак
+``вільний'' не завжди значить ``відкритий''}: часто потрібні додаткові
+кроки, щоби з інформації у вільному доступі зробити дані, доступні до
+використання.
+
+Доступність використання --- важлива категорія. У Постанові КМУ № 835
+принцип ``доступності використання'' відкритих даних напряму
+пов'язується з машиночитаним форматом оприлюднених даних. А
+машиночитаність --- зі структурованістю, що уможливлює обробку без
+участі людини (власне, машинну обробку). У тому ж документі визначено
+перелік структурованих форматів (розширень), що використовуються для
+оприлюднення наборів. Сюди відносяться \texttt{.csv}, \texttt{.xls(x)},
+\texttt{.json}, \texttt{.rdf} та інші.
+
+Але візьмемо набір даних
+``\href{https://data.gov.ua/dataset/8b9b1677-2407-454a-bfa7-76eb638c0ea1}{Єдиний
+звіт про кримінальні правопорушення}'', що оприлюднюється Генеральною
+Прокуратурою на Порталі відкритих даних. Цей набір даних оприлюднюється
+у структурованому форматі \texttt{.xlsx} і відтак, відповідно до
+визначень вище, відповідає принципу доступності використання. Втім,
+заглянуваши всередину опублікованих ресурсів (файлів) набору, побачимо,
+чому про ``машиночитаність'' та ``доступність використання'' тут можна
+говорити досить умовно:
+
+\begin{itemize}
+\tightlist
+\item
+  Всередині однієї вкладки можуть розміщуватися кілька таблиць, одна під
+  одною. Розрізнити їх між собою для роботи в середовищі розробки ``без
+  участі людини'' складно.
+\item
+  Самі таблиці використовуються для відображення ієрархічних структур
+  даних: для прикладу, за рядком ``Усього кримінальних правопорушень''
+  слідують рядки з різнорівневими значеннями ``з них''. Екселівські
+  таблиці --- не кращий спосіб відображення даних, що мають ієрархічну
+  структуру.
+\item
+  Назви колонок йдуть у кілька рядків, частина цих клітинок злита між
+  собою, що далі ускладнює зчитування цих таблиць у середовище розробки.
+\item
+  Значення колонок сумуються --- це різновид дублювання даних і такі
+  рядки треба додатково вичищати.
+\end{itemize}
+
+На перший погляд маємо суперечність: набір даних опублікований у
+структурованому форматі \texttt{.xlsx} і тому є машиночитаним, але для
+прочитання в середовищі розробки (для машинної обробки) потребує
+суттєвої участі людини і тому не є машиночитаним. Ця суперечність
+зникає, коли детальніше дивимося на контексти значень, в яких
+машиночитаність може використовуватись:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Машиночитаність як ступінь інтегрованості набору даних в Інтернет
+  даних\footnote{\url{https://blog.ldodds.com/2015/02/20/comparing-the-5-star-scheme-with-open-data-certificates/}}.
+  У впливому проєкті Пов'язаних даних Тіма Бернерса-Лі є формальна
+  вимога використання структурованих форматів\footnote{\url{https://www.w3.org/2011/gld/wiki/5_Star_Linked_Data}}
+  --- але простота використання окремого набору користувачами даних не є
+  фокусом цього проєкту.
+\item
+  Машиночитаність як простота автоматизованої обробки та відповідність
+  використовуваних форматів потребам користувачів. За цієї перспекстиви
+  вже важливо зважати на те, хто користуватиметься наборами (є поняття
+  сценаріїв використання --- англ., \emph{use-cases}), як прибрати
+  непотрібні бар'єри для зчитування та подальшого користування даними.
+\end{enumerate}
+
+\subsection{Машиночитаність як інтегрованість набору даних у мережу
+Інтернет}\label{ux43cux430ux448ux438ux43dux43eux447ux438ux442ux430ux43dux456ux441ux442ux44c-ux44fux43a-ux456ux43dux442ux435ux433ux440ux43eux432ux430ux43dux456ux441ux442ux44c-ux43dux430ux431ux43eux440ux443-ux434ux430ux43dux438ux445-ux443-ux43cux435ux440ux435ux436ux443-ux456ux43dux442ux435ux440ux43dux435ux442}
+
+Винахідник мережі Інтернет Тім Бернерс-Лі розповідав, що на створення
+Всесвітньої Мережі його наштовхнули постійні складнощі обміну
+документами між різними користувачами. Оскільки це були в основному
+текстові документи (те, що можна прочитати), звідти маємо
+``гіпер-текстові'' (hypertext, HT) посилання, HTTP-протокол,
+HTML-розмітку для структурування веб-сторінок і ще ряд засадничих для
+сьогоднішньої Мережі стандартів та технологій.
+
+Згодом він написав статтю\footnote{\url{https://www.w3.org/DesignIssues/LinkedData.html}},
+де заявив, що поряд із гіпертекстовою мережею (мережею документів),
+потрібна мережа даних, оскільки даних стає все більше --- і всі
+виграють, якщо набори даних будуть пов'язані з іншими релевантними
+наборами по всій Всесвітній Мережі. Він сформулював поняття Linked Data,
+``пов'язаних {[}лінками{]} даних'', або ``залінкованих даних''. На
+відміну від гіпертекстової мережі, де лінки (посилання) на інші
+документи містяться в тезі \texttt{\textless{}a\textgreater{}} з
+атрибутом \texttt{href} у HTML-документі, об'єкт мережі даних містить
+посилання на інші об'єкти в RDF-документі.
+
+Так, якщо розпорядник в Україні, скажімо, КМДА, публікує набір даних про
+парковки в Київі, при дотриманні стандарту RDF (зокрема, використанні
+словників DCAT), цей набір буде залінкований з усіма наборами у світі, в
+яких йдеться про парковки в містах --- якщо в них дотримані ті ж
+стандарти. RDF використовує троїсті структури (триплети) для опису
+спостережень:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Тут буде \texttt{суб\textquotesingle{}єкт}, конкретне паркомісце в
+  Києві зі своїм унікальним на весь Інтернет URI-ідентифікатором;
+\item
+  \texttt{предикат}, який описуватиме властивість цього суб'єкта ---
+  наприклад, ``Кількість паркомісць'';
+\item
+  \texttt{об\textquotesingle{}єкт} --- це значення предиката. Скажімо,
+  ``70'' (паркомісць).
+\end{enumerate}
+
+Цей гарний інтерактивний граф з Linked Open Data Cloud показує, яка
+виглядає Інтернет даних, завдяки організаціям, які дотримуються
+стандартів відкритих даних WC3:
+
+Я навмисно тут дещо заглибився в технічні деталі, щоб показати, що
+робота з RDF-форматом --- це не просто\footnote{Це лагідний вступ до
+  роботи з RDF (на мові R)
+  \url{https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html}}.
+Для повноцінного використання стандартів відкритих даних W3C
+розпорядникам потрібні спеціалісти. На українському Порталі відкритих
+даних станом на 11 грудня 2024 року з 841,643 опублікованих ресурсів
+(файлів), у форматі RDF опубліковано лише 25 (двадцять п'ять). При чому
+усі у 2018 році і у одного розпорядника, Державної прикордонної служби.
+
+\begin{verbatim}
+# A tibble: 25 x 2
+   mimetype            created                   
+   <chr>               <chr>                     
+ 1 application/rdf+xml 2018-11-01T13:28:03.538971
+ 2 application/rdf+xml 2018-11-02T09:00:38.201840
+ 3 application/rdf+xml 2018-11-01T11:14:31.685839
+ 4 application/rdf+xml 2018-11-05T10:21:52.515944
+ 5 application/rdf+xml 2018-11-05T10:37:34.390529
+ 6 application/rdf+xml 2018-11-05T10:39:31.313447
+ 7 application/rdf+xml 2018-11-02T11:02:25.354277
+ 8 application/rdf+xml 2018-11-05T10:22:31.868074
+ 9 application/rdf+xml 2018-11-05T10:41:03.930371
+10 application/rdf+xml 2018-11-05T10:23:24.421427
+# i 15 more rows
+\end{verbatim}
 
 \textsubscript{Source:
 \href{https://mykuzin.github.io/machine-readability-and-open-data/index.qmd.html}{Article
 Notebook}}
 
-\phantomsection\label{cell-fig-timeline}
-\begin{figure}[H]
+\subsection{Машиночитаність як відповідність потребам
+користувачів}\label{sec-data-methods}
 
-\centering{
+Перше, що кинулося мені у вічі, коли почав читати обговорення\footnote{\url{https://github.com/co-cddo/open-standards/issues/40}}
+спільноти відкритих даних Сполученого королівства --- це уточення
+\emph{user stories}, тобто сценаріїв використання наборів даних різними
+групами користувачів. Цей же підхід є у рекомендованих державою
+стандартах публікації відкритих даних. Для прикладу, є рекомендований
+стандарт публікації табличних даних\footnote{\url{https://www.gov.uk/government/publications/recommended-open-standards-for-government/tabular-data-standard}},
+в якому на самому початку описані користувачі таких даних:
 
-\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-pdf/fig-timeline-1.pdf}}
+\begin{itemize}
+\tightlist
+\item
+  люди, які використовують табличний редактор для базового аналізу
+\item
+  аналітики, які використовують дані в статистичних програмах або
+  застосунках для бізнес-аналітики для проведення інтерактивного аналізу
+\item
+  дата-сайєнтисти, які пишуть програмне забезпечення для аналізу даних,
+  яке завантажує та обробляє дані, наприклад, відтворювані аналітичні
+  пайплайни
+\item
+  розробники, які обробляють дані в різному програмному забезпеченні
+\item
+  люди, яким потрібно швидко шукати релевантні дані перед їх аналізом за
+  допомогою спеціалізованих інструментів
+\end{itemize}
 
-}
+Відповідно, знаючи профілі тих, хто користуватиметься даними, стають
+зрозумілішіми їхні потреби, з яких вже можна сформулювати вимоги до
+публікації самих табличних наборів. За такого підходу доступність
+використання справді стоїть на першому місці.
 
-\caption{\label{fig-timeline}Timeline of recent earthquakes on La Palma}
+На противагу, повертаючись до згаданого набору Генпрокуратури, єдиною
+групою користувачів, яку можна уявити розглядаючи набір у його поточному
+стані --- це люди, які користуються роздрукуваними на принтері листками.
+Втім, сам факт публікації цього набору розпорядником є важливою віхою;
+питання стоїть як цей набір і решту табличних наборів зробити кращими і
+доступнішими для користування.
 
-\end{figure}%
+В Україні є сформульовані рекомендації щодо публікації табличних даних,
+що роблять простішою для користувачів роботу з ними. У пам'ятці
+``Підготовка даних до публікації'' в рамках проекту «Прозорість та
+підзвітність в державному управлінні та послугах» / TAPAS, влучно
+зазначено, що «\ldots{} найбільш цінними для користувачів є саме
+структуровані та машиночитані дані. Однак із цим типом даних традиційно
+виникає найбільше проблем у розпорядників даних»\footnote{\url{https://data.gov.ua/uploads/files/2018-08-11-104337.710875Part04.pdf}}.
+Там же наведені конкретні приклади, як виглядають правильні і
+неправильні таблиці --- і чому так.
 
-\textsubscript{Source:
-\href{https://mykuzin.github.io/machine-readability-and-open-data/index.qmd.html}{Article
-Notebook}}
+На Порталі відкритих даних є лаконічні рекомендації з принципами
+оприлюднення табличних даних (вони потребують уточнення і розширення,
+щоб справді бути корисними розпорядникам):
 
-\textsubscript{Source:
-\href{https://mykuzin.github.io/machine-readability-and-open-data/index.qmd.html}{Article
-Notebook}}
+\begin{itemize}
+\tightlist
+\item
+  Таблиця --- це впорядкована сукупність колонок та рядків.
+\item
+  Кожен рядок таблиці містить один запис.
+\item
+  Кожна колонка --- значення, що змінюються від рядка до рядка.
+\item
+  Назви колонок розміщуються в шапці. \# \emph{тут треба ще додати, що в
+  одному рядку}
+\item
+  На перетині рядків та колонок знаходяться комірки.
+\item
+  Таблиця не може містити заголовків та об'єднаних комірок. \# \emph{це}
+  ❤
+\item
+  Колір, шрифт, інше форматування тексту та комірок не є даними.
+\end{itemize}
 
-Based on data up to and including 1971, eruptions on La Palma happen
-every 79.8 years on average.
+Таким чином, в Україні проблема простоти та доступності використання
+структурованих даних, як бачимо, поставлена, поточна мета --- засвоєння
+базових рекомендацій щодо публікацій наборів якомога ширшим колом
+розпорядників.
 
-Studies of the magma systems feeding the volcano, such as Marrero et al.
-(2019), have proposed that there are two main magma reservoirs feeding
-the Cumbre Vieja volcano; one in the mantle (30-40km depth) which
-charges and in turn feeds a shallower crustal reservoir (10-20km depth).
+\subsection{Висновки}\label{ux432ux438ux441ux43dux43eux432ux43aux438}
 
-Eight eruptions have been recorded since the late 1400s
-(Figure~\ref{fig-timeline}).
+Візіонерський проєкт Інтернету даних, описаний у стандартах відкритих
+даних W3C, вимагає від ропорядників ресурсів та інституційної
+спроможності для реалізації цих проєктів. Більшість ЦОВВ і окремі ОМС в
+Україні можуть це робити --- й отримають більше видимості у світі та
+інтеграції з релевантними для них стейкхолдерами.
 
-Data and methods are discussed in Section~\ref{sec-data-methods}.
-
-Let \(x\) denote the number of eruptions in a year. Then, \(x\) can be
-modeled by a Poisson distribution
-
-\begin{equation}\phantomsection\label{eq-poisson}{
-p(x) = \frac{e^{-\lambda} \lambda^{x}}{x !}
-}\end{equation}
-
-where \(\lambda\) is the rate of eruptions per year. Using
-Equation~\ref{eq-poisson}, the probability of an eruption in the next
-\(t\) years can be calculated.
-
-\begin{longtable}[]{@{}ll@{}}
-\caption{Recent historic eruptions on La
-Palma}\label{tbl-history}\tabularnewline
-\toprule\noalign{}
-Name & Year \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-Name & Year \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Current & 2021 \\
-Teneguía & 1971 \\
-Nambroque & 1949 \\
-El Charco & 1712 \\
-Volcán San Antonio & 1677 \\
-Volcán San Martin & 1646 \\
-Tajuya near El Paso & 1585 \\
-Montaña Quemada & 1492 \\
-\end{longtable}
-
-Table~\ref{tbl-history} summarises the eruptions recorded since the
-colonization of the islands by Europeans in the late 1400s.
-
-\begin{figure}
-
-\centering{
-
-\pandocbounded{\includegraphics[keepaspectratio]{images/la-palma-map.png}}
-
-}
-
-\caption{\label{fig-map}Map of La Palma}
-
-\end{figure}%
-
-La Palma is one of the west most islands in the Volcanic Archipelago of
-the Canary Islands (Figure~\ref{fig-map}).
-
-\begin{figure}[H]
-
-\centering{
-
-\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-latex/notebooks-explore-earthquakes-fig-spatial-plot-output-1.png}}
-
-}
-
-\caption{\label{fig-spatial-plot}Locations of earthquakes on La Palma
-since 2017}
-
-\end{figure}%
-
-\textsubscript{Source:
-\href{https://mykuzin.github.io/machine-readability-and-open-data/notebooks/explore-earthquakes-preview.html\#cell-fig-spatial-plot}{Explore
-Earthquakes}}
-
-Figure~\ref{fig-spatial-plot} shows the location of recent Earthquakes
-on La Palma.
-
-\section{Data \& Methods}\label{sec-data-methods}
-
-\section{Conclusion}\label{conclusion}
-
-\section*{References}\label{references}
-\addcontentsline{toc}{section}{References}
-
-\phantomsection\label{refs}
-\begin{CSLReferences}{1}{0}
-\vspace{1em}
-
-\bibitem[\citeproctext]{ref-marrero2019}
-Marrero, J., García, A., Berrocoso, M., Llinares, Á., Rodríguez-Losada,
-A., \& Ortiz, R. (2019). Strategies for the development of volcanic
-hazard maps in monogenetic volcanic fields: The example of {La} {Palma}
-({Canary} {Islands}). \emph{Journal of Applied Volcanology}, \emph{8}.
-\url{https://doi.org/10.1186/s13617-019-0085-5}
-
-\end{CSLReferences}
+Втім, є приземленіша ціль, від якої виграють усі користувачі даних в
+Україні --- привести ті набори даних, що вже публікуються, у
+відповідність базовим рекомендаціям до публікації наборів.
 
 
 
